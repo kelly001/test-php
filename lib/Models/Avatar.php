@@ -11,11 +11,14 @@ class Avatar
     private $id;
     private $user_id;
     private $path;
+    private $file_name;
 
     function __construct($arFields)
     {
         $this->user_id = $arFields['user_id'];
         $this->path = $arFields["FILE"]["path"];
+        $this->file_name = $arFields["FILE"]["file_name"];
+
     }
 
     /**

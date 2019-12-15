@@ -13,12 +13,12 @@ class Group
 {
     private $id;
     private $name;
-    private $privilegies;
+    private $privileges;
 
     function __construct($arFields)
     {
         $this->name = $arFields["name"];
-        $this->privilegies = $arFields["privilegies"];
+        $this->privileges = $arFields["privileges"];
     }
 
     /**
