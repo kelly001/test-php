@@ -6,8 +6,6 @@
  * Time: 21:48
  */
 
-require_once "Controllers/UserController.php";
-
 switch ($_REQUEST["action"]){
     case "registration":
         \Controllers\UserController::registration();
@@ -17,6 +15,11 @@ switch ($_REQUEST["action"]){
         break;
     case "personal":
         $arUserInfo = \Controllers\UserController::getInfo($_REQUEST['user_id']);
+        break;
+    case "logout":
+        unset($_SESSION["user_id"]);
+        session_destroy();
+        header("Location: http://localhost/index.php");
         break;
     default:
         //redirect to index.php

@@ -1,3 +1,6 @@
+<?php
+require_once "header.php";
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -43,7 +46,10 @@
 
             <div class="mb-6 form-group">
                 <label for="password">Пароль</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="invalid-feedback">
+                    Пожалуйста придумайте пароль минимальной длины 6 символов
+                </div>
             </div>
 
             <div class="mb-6 form-group">

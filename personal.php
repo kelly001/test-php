@@ -1,6 +1,8 @@
 <?php
-require_once "lib/Controllers/UserController.php";
+session_start();
+require_once "header.php";
 $arUserInfo = \Controllers\UserController::getInfo($_REQUEST['user_id']);
+var_dump($arUserInfo);
 ?>
 <!doctype html>
 <html lang="en">
