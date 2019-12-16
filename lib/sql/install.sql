@@ -41,28 +41,6 @@ CREATE TABLE IF NOT EXISTS `avatars` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `groups`
---
-
-DROP TABLE IF EXISTS `groups`;
-CREATE TABLE IF NOT EXISTS `groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `privileges` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Дамп данных таблицы `groups`
---
-
-INSERT INTO `groups` (`id`, `name`, `privileges`) VALUES
-(1, 'admin', NULL),
-(2, 'user', NULL);
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `users`
 --
 
@@ -80,20 +58,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `user_phone_index` (`phone`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
 
---
--- Структура таблицы `user_groups`
---
-
-DROP TABLE IF EXISTS `user_groups`;
-CREATE TABLE IF NOT EXISTS `user_groups` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `group_id` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

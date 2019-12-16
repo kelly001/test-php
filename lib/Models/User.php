@@ -118,12 +118,6 @@ class User
                 return $res;
             }
 
-            /*
-            $stmt = $mysqli->prepare("SELECT id, `name`, email, phone, avatar_id from users WHERE id=?");
-            $stmt->bind_param('d',
-                $id
-            );
-            */
             $query = "SELECT id, `name`, email, phone, avatar_id, created_at from users WHERE id=".$id;
             if ($result = $mysqli->query($query)) {
                 while ($row = $result->fetch_row()) {
@@ -163,8 +157,6 @@ class User
         }
 
         if(!is_null($this->id)) {
-            //phone_number=?, street_name=?, city=?, county=?, zip_code=?, day_date=?, month_date=?, year_date=?
-            //WHERE account_id=?";
 
             $stmt = $mysqli->prepare("UPDATE users SET name=?, email=?, phone=?, avatar_id=? WHERE id=?");
             $stmt->bind_param('sssii',

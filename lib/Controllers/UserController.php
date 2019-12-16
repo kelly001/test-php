@@ -105,10 +105,6 @@ class UserController
         }
     }
 
-    public static function login(){
-
-    }
-
     public static function getInfo($user_id){
         $user_id = intval(htmlspecialchars($user_id));
         if(is_integer($user_id)) {
