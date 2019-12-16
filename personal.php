@@ -1,29 +1,44 @@
 <?php
-session_start();
 require_once "header.php";
-$arUserInfo = \Controllers\UserController::getInfo($_REQUEST['user_id']);
-var_dump($arUserInfo);
+$arUserInfo = [];
+//$arUserInfo = \Controllers\UserController::getInfo($_REQUEST['user_id']);
+//var_dump($arUserInfo);
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<div class="container">
+    <div class="row">
+        <div class="py-5 text-center">
+            <h1><?=$arLang["personal_title"]?> #<?=isset($arUserInfo["id"])?$arUserInfo["id"]:""?></h1>
+        </div>
+    </div>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="assets/style.css" rel="stylesheet">
+    <div class="row">
+        <div class="col-md-3">
+            <?if(isset($arUserInfo["avatar"])):?>
+                <img src="<?=$arUserInfo["avatar"]["path"]?>" alt="" class="img-thumbnail">
+            <?endif;?>
+        </div>
 
-    <title>Информация зарегистрированного пользователя - тестовое задание</title>
-</head>
-<body>
-<h1>Hello, world!</h1>
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-3"><?=$arLang["username"]?></dt>
+                <dd class="col-sm-9"><?=isset($arUserInfo["name"])?$arUserInfo["name"]:""?></dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Email</dt>
+                <dd class="col-sm-9"><?=isset($arUserInfo["email"])?$arUserInfo["email"]:""?></dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3"><?=$arLang["phone_number"]?></dt>
+                <dd class="col-sm-9"><?=isset($arUserInfo["phone"])?$arUserInfo["phone"]:""?></dd>
+            </dl>
+        </div>
+    </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
-</html>
+</div>
+
+
+
+
+<?php
+require_once "footer.php";
+?>
