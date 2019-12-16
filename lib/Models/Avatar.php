@@ -169,7 +169,30 @@ VALUES (?,?,?,?)");
     }
 
     public function delete($id) {
+        $res = false;
+        // Create connection
+        $mysqli = new \mysqli($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"], $GLOBALS["db_name"]);
+        // Check connection
+        if (mysqli_connect_errno()) {
+            $res['result'] = false;
+            $res['error_message'] = "mysql connection error";
+            return $res;
+        }
 
+        $query = "DELETE FROM avatars WHERE id=".$id;
+
+        if ($result = $mysqli->query($query)){
+            $res['result'] = true;
+            $result->close();
+
+            //todo delete avatar id from user
+        } else {
+            $res['result'] = false;
+            $res['error_message'] = $mysqli->error;
+        }
+
+        $mysqli->close();
+        return $res;
     }
 
 }

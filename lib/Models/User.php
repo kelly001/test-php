@@ -206,21 +206,17 @@ VALUES (?,?,?,?)");
             return $res;
         }
 
-        $stmt = $mysqli->prepare("DELETE from users WHERE id=?");
-        $stmt->bind_param('i',
-            $id
-        );
+        $query = "DELETE FROM users WHERE id=".$id;
 
-        if ($stmt->execute() === TRUE) {
-                $res['result'] = true;
+        if ($result = $mysqli->query($query)){
+            $res['result'] = true;
+            $result->close();
         } else {
             $res['result'] = false;
-            $res['error_message'] = $stmt->error;
+            $res['error_message'] = $mysqli->error;
         }
 
-        $stmt->close();
         $mysqli->close();
-
         return $res;
     }
 }
