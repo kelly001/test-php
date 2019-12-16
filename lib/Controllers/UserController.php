@@ -14,8 +14,6 @@ use \Models\Avatar;
 class UserController
 {
     public static function registration(){
-        var_dump($_REQUEST);
-
         //validation
         $arFields = [];
         $arErrors = [];
@@ -53,8 +51,7 @@ class UserController
         }
 
         //check avatar
-        if(isset($_FILES["avatar"])) {
-
+        if(isset($_FILES["avatar"]) && $_FILES["avatar"]["name"] != '') {
             //проверка размера
             $maxBytes = $GLOBALS["max_upload_file_size"] * 1024 * 1000;
             if ($_FILES["avatar"]["size"] > $maxBytes)
@@ -85,7 +82,7 @@ class UserController
                         $Avatar = new Avatar([
                             "user_id" => $userId,
                             "file_name" => $_FILES['avatar']['name'],
-                            "webpath" => $GLOBALS["web_dir"] . basename($_FILES['avatar']['name']),
+                            "web_path" => $GLOBALS["web_dir"] . basename($_FILES['avatar']['name']),
                             "file_path" => $dir
                         ]);
                         $Avatar->save();
@@ -95,10 +92,13 @@ class UserController
                         $User->save();
                     }
                 }
+
+                unset($_SESSION["ERRORS"]);
                 //redirect to personal
                 header("Location: http://localhost:8080/personal.php?user_id=".$userId);
+                exit();
             } else {
-                return $res["error_message"];
+                return [$res["error_message"]];
             }
         } else {
             return $arErrors;

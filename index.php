@@ -1,5 +1,7 @@
 <?php
 require_once "header.php";
+//unset($_SESSION["ERRORS"]);
+if(isset($_SESSION["ERRORS"])) $arErrors = $_SESSION["ERRORS"];
 ?>
 <div class="container">
     <div class="py-5 text-center">
@@ -8,6 +10,19 @@ require_once "header.php";
     </div>
 
     <div class="col-md-8 order-md-1">
+
+        <?if(isset($arErrors)):?>
+            <?foreach ($arErrors as $error):?>
+                <div class="alert alert-danger" role="alert">
+                    <?if(is_array($error)):?>
+                        <?var_dump($error)?>
+                    <?else:?>
+                        <?=$error?>
+                    <?endif;?>
+                </div>
+            <?endforeach;?>
+        <?endif;?>
+
         <form class="needs-validation"
               enctype="multipart/form-data"
               method="POST"
@@ -15,16 +30,32 @@ require_once "header.php";
               novalidate
         >
             <input type="hidden" name="action" value="registration">
+
             <div class="mb-6 form-group">
                 <label for="username"><?=$arLang["username"]?> <span class="text-muted">(<?=$arLang["optional"]?>)</span></label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="name" placeholder="<?=$arLang["username_placeholder"]?>" name="name">
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="name"
+                            placeholder="<?=$arLang["username_placeholder"]?>"
+                            name="name"
+                            value="<?=isset($_REQUEST["name"])?$_REQUEST["name"]:""?>"
+                    >
                 </div>
             </div>
 
             <div class="mb-6 form-group">
                 <label for="email">Email </label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com" name="email" required>
+                <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        placeholder="you@example.com"
+                        name="email"
+                        value="<?=isset($_REQUEST["email"])?$_REQUEST["email"]:""?>"
+                        required
+                >
                 <div class="invalid-feedback">
                     <?=$arLang["email_error"]?>
                 </div>
@@ -32,12 +63,28 @@ require_once "header.php";
 
             <div class="mb-6 form-group">
                 <label for="phone"><?=$arLang["phone_number"]?> <span class="text-muted">(<?=$arLang["optional"]?>)</span></label>
-                <input type="tel" pattern=".{10}" class="form-control" id="phone" placeholder="(999) 123-45-67" name="phone">
+                <input
+                        type="tel"
+                        pattern=".{11}"
+                        class="form-control"
+                        id="phone"
+                        placeholder="(999) 123-45-67"
+                        name="phone"
+                        value="<?=isset($_REQUEST["phone"])?$_REQUEST["phone"]:""?>"
+                >
             </div>
 
             <div class="mb-6 form-group">
                 <label for="password"><?=$arLang["password"]?></label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input
+                        type="password"
+                        pattern=".{6}"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        value="<?=isset($_REQUEST["password"])?$_REQUEST["password"]:""?>"
+                        required
+                >
                 <div class="invalid-feedback">
                     <?=$arLang["password_error"]?>
                 </div>
@@ -45,7 +92,12 @@ require_once "header.php";
 
             <div class="mb-6 form-group">
                 <label for="avatar"><?=$arLang["user_file"]?> <span class="text-muted">(<?=$arLang["optional"]?>)</span></label>
-                <input type="file" class="form-control-file" id="avatar" name="avatar">
+                <input
+                        type="file"
+                        class="form-control-file"
+                        id="avatar"
+                        name="avatar"
+                >
             </div>
 
             <hr class="mb-4">

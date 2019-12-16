@@ -6,6 +6,7 @@
  * Time: 23:17
  */
 
+session_start();
 $GLOBALS["SERVER_DIR"] = __DIR__;
 
 require_once "lib/Controllers/UserController.php";

@@ -5,13 +5,18 @@
  * Date: 15.12.2019
  * Time: 21:48
  */
+
+session_start();
 include "header_admin.php";
 
 switch ($_REQUEST["action"]){
     case "registration":
         $arErrors = \Controllers\UserController::registration();
         if(!empty($arErrors)){
-            var_dump($arErrors);
+            $query = http_build_query($_POST);
+            $_SESSION["ERRORS"] = $arErrors;
+            header("Location: http://localhost:8080/index.php?".$query);
+            exit();
         }
         break;
     case "login":
@@ -23,8 +28,9 @@ switch ($_REQUEST["action"]){
     case "logout":
         unset($_SESSION["user_id"]);
         session_destroy();
-        header("Location: http://localhost/index.php");
+        header("Location: http://localhost:8080/index.php");
         break;
+        exit();
     default:
         //redirect to index.php
 }

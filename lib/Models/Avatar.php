@@ -142,7 +142,7 @@ class Avatar
         } else {
             $stmt = $mysqli->prepare("INSERT INTO avatars (`name`, path, user_id, webpath)
 VALUES (?,?,?,?)");
-            $stmt->bind_param('ssi',
+            $stmt->bind_param('ssis',
                 $this->name,
                 $this->path,
                 $this->user_id,
