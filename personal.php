@@ -3,7 +3,6 @@ require_once "header.php";
 $arUserInfo = [];
 if(isset($_REQUEST['user_id']))
     $arUserInfo = \Controllers\UserController::getInfo($_REQUEST['user_id']);
-//var_dump($arUserInfo);
 ?>
 <div class="container">
     <div class="row">
@@ -15,7 +14,7 @@ if(isset($_REQUEST['user_id']))
     <div class="row">
         <div class="col-md-3">
             <?if(isset($arUserInfo["avatar"])):?>
-                <img src="<?=$arUserInfo["avatar"]["path"]?>" alt="" class="img-thumbnail" />
+                <img src="<?=$arUserInfo["avatar"]["webpath"]?>" alt="<?=$arUserInfo["avatar"]["name"]?>" class="img-thumbnail" />
             <?endif;?>
         </div>
 

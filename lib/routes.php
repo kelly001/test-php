@@ -9,7 +9,10 @@ include "header_admin.php";
 
 switch ($_REQUEST["action"]){
     case "registration":
-        \Controllers\UserController::registration();
+        $arErrors = \Controllers\UserController::registration();
+        if(!empty($arErrors)){
+            var_dump($arErrors);
+        }
         break;
     case "login":
         \Controllers\UserController::login();

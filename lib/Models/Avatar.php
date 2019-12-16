@@ -12,12 +12,14 @@ class Avatar
     private $id;
     private $user_id;
     private $path;
+    private $webpath;
     private $name;
 
     function __construct($arFields)
     {
         $this->user_id = $arFields['user_id'];
         $this->path = $arFields["file_path"];
+        $this->webpath = $arFields["web_path"];
         $this->name = $arFields["file_name"];
 
     }
@@ -47,6 +49,22 @@ class Avatar
     }
 
     /**
+     * @param mixed $webpath
+     */
+    public function setWebpath($webpath)
+    {
+        $this->webpath = $webpath;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWebpath()
+    {
+        return $this->webpath;
+    }
+
+    /**
      * @param mixed $path
      */
     public function setPath($path)
@@ -60,6 +78,41 @@ class Avatar
     public function setUserId($user_id)
     {
         $this->user_id = $user_id;
+    }
+
+    public static function getByID($id) {
+        $res = false;
+
+        if(!empty($id)){
+            // Create connection
+            $mysqli = new \mysqli($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"], $GLOBALS["db_name"]);
+            // Check connection
+            if (mysqli_connect_errno()) {
+                $res['result'] = false;
+                $res['error_message'] = "mysql connection error";
+                return $res;
+            }
+
+            $query = "SELECT id, `name`, path, webpath from avatars WHERE id=".$id;
+            if ($result = $mysqli->query($query)) {
+                while ($row = $result->fetch_row()) {
+                    $arFile["id"] = $row[0];
+                    $arFile["name"] = $row[1];
+                    $arFile["path"] = $row[2];
+                    $arFile["webpath"] = $row[3];
+
+                    $res = $arFile;
+                }
+                $result->close();
+            } else {
+                $res['result'] = false;
+                $res['error_message'] = $mysqli->error;
+            }
+
+            $mysqli->close();
+        }
+
+        return $res;
     }
 
     public function getByUser($user_id)
@@ -87,12 +140,13 @@ class Avatar
                 $this->id
             );
         } else {
-            $stmt = $mysqli->prepare("INSERT INTO avatars (`name`, path, user_id)
-VALUES (?,?,?)");
+            $stmt = $mysqli->prepare("INSERT INTO avatars (`name`, path, user_id, webpath)
+VALUES (?,?,?,?)");
             $stmt->bind_param('ssi',
                 $this->name,
                 $this->path,
-                $this->user_id
+                $this->user_id,
+                $this->webpath
             );
         }
 

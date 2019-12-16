@@ -7,6 +7,7 @@
  */
 
 namespace Models;
+use Models\Avatar;
 
 class User
 {
@@ -104,7 +105,7 @@ class User
         return $this->avatar;
     }
 
-    public static function getById($id){
+    public static function getByID($id){
         $res = false;
 
         if(!empty($id)){
@@ -131,10 +132,12 @@ class User
                     $arUser["email"] = $row[2];
                     $arUser["phone"] = $row[3];
                     $arUser["created_at"] = $row[5];
-                    $res = $arUser;
-                    //$arFields["avatar_id"] = $row[4];
+                    $arUser["avatar"] = $row[4];
 
-                    //todo get avatar path
+                    if(!empty($arUser["avatar"])){
+                        $arUser["avatar"] = Avatar::getByID($arUser["avatar"]);
+                    }
+                    $res = $arUser;
                 }
                 $result->close();
             } else {

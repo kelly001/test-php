@@ -85,6 +85,7 @@ class UserController
                         $Avatar = new Avatar([
                             "user_id" => $userId,
                             "file_name" => $_FILES['avatar']['name'],
+                            "webpath" => $GLOBALS["web_dir"] . basename($_FILES['avatar']['name']),
                             "file_path" => $dir
                         ]);
                         $Avatar->save();
@@ -108,10 +109,10 @@ class UserController
 
     }
 
-    public static function getInfo($user_id) {
+    public static function getInfo($user_id){
         $user_id = intval(htmlspecialchars($user_id));
         if(is_integer($user_id)) {
-            $arResult = User::getById($user_id);
+            $arResult = User::getByID($user_id);
             return $arResult;
         } else {
             return false;
