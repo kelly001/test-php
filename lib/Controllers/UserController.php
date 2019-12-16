@@ -103,10 +103,8 @@ class UserController
 
     public static function getInfo($user_id) {
         $user_id = intval(htmlspecialchars($user_id));
-        var_dump($user_id);
         if(is_integer($user_id)) {
-            $obUser = User::getById($user_id);
-            $arResult = (array) $obUser;
+            $arResult = User::getById($user_id);
             return $arResult;
         } else {
             return false;

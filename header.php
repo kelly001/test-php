@@ -8,7 +8,7 @@
 
 require_once "lib/Controllers/UserController.php";
 require_once "lib/Models/User.php";
-#require_once "lib/settings.php";
+require_once "lib/settings.php";
 
 //include lag files
 $lang = "ru";

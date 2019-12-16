@@ -12,4 +12,5 @@ $LANG_CONST["user_file"] = "Файл пользователя";
 $LANG_CONST["registration_btn"] = "Зарегистрироваться";
 $LANG_CONST["optional"] = "Не обязательно";
 
+$LANG_CONST["created_at"] = "Дата регистрации";
 $LANG_CONST["personal_title"] = "Информация о пользователе";

@@ -12,4 +12,5 @@ $LANG_CONST["user_file"] = "File";
 $LANG_CONST["registration_btn"] = "Register";
 $LANG_CONST["optional"] = "Optional";
 
+$LANG_CONST["created_at"] = "Registration  date";
 $LANG_CONST["personal_title"] = "User information";

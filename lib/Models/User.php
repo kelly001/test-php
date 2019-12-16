@@ -22,8 +22,10 @@ class User
         $this->name = $arFields["name"];
         $this->email = $arFields["email"];
         $this->phone = $arFields["phone"];
-        $this->password = md5($arFields["password"]);
+        if(isset($arFields["password"]))
+            $this->password = md5($arFields["password"]);
         $this->id = isset($arFields["id"])?$arFields["id"]:null;
+        $this->created_add = isset($arFields["created_at"])?$arFields["created_at"]:"";
     }
 
     /**
@@ -103,32 +105,33 @@ class User
                 return $res;
             }
 
-            $stmt = $mysqli->prepare("SELECT id, `name`, email, phone, avatar_id from users WHERE id=".$id);
-            /*$stmt->bind_param('i',
+            /*
+            $stmt = $mysqli->prepare("SELECT id, `name`, email, phone, avatar_id from users WHERE id=?");
+            $stmt->bind_param('d',
                 $id
-            );*/
-
-            if ($result = $stmt->execute()) {
-                $arFields = [];
+            );
+            */
+            $query = "SELECT id, `name`, email, phone, avatar_id, created_at from users WHERE id=".$id;
+            if ($result = $mysqli->query($query)) {
                 while ($row = $result->fetch_row()) {
-                    $arFields["id"] = $row[0];
-                    $arFields["name"] = $row[1];
-                    $arFields["email"] = $row[2];
-                    $arFields["phone"] = $row[3];
-                    $arFields["avatar_id"] = $row[4];
-                    $res = new User($arFields);
+                    $arUser["id"] = $row[0];
+                    $arUser["name"] = $row[1];
+                    $arUser["email"] = $row[2];
+                    $arUser["phone"] = $row[3];
+                    $arUser["created_at"] = $row[5];
+                    $res = $arUser;
+                    //$arFields["avatar_id"] = $row[4];
+
+                    //todo get avatar path
                 }
+                $result->close();
             } else {
                 $res['result'] = false;
-                $res['error_message'] = $stmt->error;
+                $res['error_message'] = $mysqli->error;
             }
 
-            $stmt->close();
             $mysqli->close();
         }
-
-
-
 
         return $res;
     }
