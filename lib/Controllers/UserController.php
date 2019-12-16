@@ -9,7 +9,7 @@
 namespace Controllers;
 
 use \Models\User;
-use Models\Group;
+use Models\Avatar;
 
 class UserController
 {
@@ -53,6 +53,23 @@ class UserController
         }
 
         //todo save avatar
+        //save avatar
+        $userId = 1;
+        if(isset($_FILES["avatar"])){
+            var_dump($_FILES["avatar"]);
+            $dir = $GLOBALS["upload_dir"] . basename($_FILES['avatar']['name']);
+            if(move_uploaded_file($_FILES['avatar']['tmp_name'], $dir)){
+                $Avatar = new Avatar([
+                    "user_id" => $userId,
+                    "file_name" => $_FILES['avatar']['name'],
+                    "file_path" => $dir
+                ]);
+                $Avatar->save();
+                $fileId = $Avatar->getId();
+            }
+        }
+
+        die();
 
         if(empty($arErrors)) {
             $arFields["name"] = isset($name)?$name:"";
@@ -61,11 +78,16 @@ class UserController
             $arFields["phone"] = isset($phone)?$phone:"";
             $User = new User($arFields);
             $res = $User->save();
-            var_dump($res);
+
+            //save avatar
+            var_dump($_REQUEST["file"]);
+
             if($res["result"] === true){
-                //save session & redirect to personal
-                session_start();
-                $_SESSION['user_id'] = $User->getId();
+                //todo save session
+                /*session_start();
+                $_SESSION['user_id'] = $User->getId();*/
+
+                //redirect to personal
                 header("Location: http://localhost:8080/personal.php?user_id=".$User->getId());
             } else {
                 return $res["error_message"];

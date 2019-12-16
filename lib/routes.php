@@ -5,6 +5,7 @@
  * Date: 15.12.2019
  * Time: 21:48
  */
+include "header_admin.php";
 
 switch ($_REQUEST["action"]){
     case "registration":

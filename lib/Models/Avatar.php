@@ -5,6 +5,7 @@
  * Date: 15.12.2019
  * Time: 14:13
  */
+namespace Models;
 
 class Avatar
 {
@@ -16,8 +17,8 @@ class Avatar
     function __construct($arFields)
     {
         $this->user_id = $arFields['user_id'];
-        $this->path = $arFields["FILE"]["path"];
-        $this->file_name = $arFields["FILE"]["file_name"];
+        $this->path = $arFields["file_path"];
+        $this->file_name = $arFields["file_name"];
 
     }
 
@@ -68,6 +69,7 @@ class Avatar
 
     public function save(){
 
+        return true;
     }
 
     public function delete($id) {

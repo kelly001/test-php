@@ -11,3 +11,5 @@ $db_user = "root";
 $db_password = "";
 $db_name = "facebook";
 $db_server = "localhost";
+
+$upload_dir = __DIR__ . "/upload/";
