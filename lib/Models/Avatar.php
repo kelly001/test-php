@@ -12,13 +12,13 @@ class Avatar
     private $id;
     private $user_id;
     private $path;
-    private $file_name;
+    private $name;
 
     function __construct($arFields)
     {
         $this->user_id = $arFields['user_id'];
         $this->path = $arFields["file_path"];
-        $this->file_name = $arFields["file_name"];
+        $this->name = $arFields["file_name"];
 
     }
 
@@ -68,8 +68,50 @@ class Avatar
     }
 
     public function save(){
+        $res = false;
+        // Create connection
+        $mysqli = new \mysqli($GLOBALS["db_server"], $GLOBALS["db_user"], $GLOBALS["db_password"], $GLOBALS["db_name"]);
+        // Check connection
+        if (mysqli_connect_errno()) {
+            $res['result'] = false;
+            $res['error_message'] = "mysql connection error";
+            return $res;
+        }
 
-        return true;
+        if(!is_null($this->id)) {
+            $stmt = $mysqli->prepare("UPDATE avatars SET name=?, path=?, user_id=? WHERE id=?");
+            $stmt->bind_param('sssi',
+                $this->name,
+                $this->path,
+                $this->user_id,
+                $this->id
+            );
+        } else {
+            $stmt = $mysqli->prepare("INSERT INTO avatars (`name`, path, user_id)
+VALUES (?,?,?)");
+            $stmt->bind_param('ssi',
+                $this->name,
+                $this->path,
+                $this->user_id
+            );
+        }
+
+        if ($stmt->execute() === TRUE) {
+            if(is_null($this->id)){
+                $res['result'] = true;
+                $this->id = mysqli_stmt_insert_id($stmt);
+            } else {
+                $res['result'] = true;
+            }
+        } else {
+            $res['result'] = false;
+            $res['error_message'] = $stmt->error;
+        }
+
+        $stmt->close();
+        $mysqli->close();
+
+        return $res;
     }
 
     public function delete($id) {

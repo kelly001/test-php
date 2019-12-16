@@ -9,7 +9,7 @@
 namespace Controllers;
 
 use \Models\User;
-use Models\Avatar;
+use \Models\Avatar;
 
 class UserController
 {
@@ -52,24 +52,17 @@ class UserController
             }
         }
 
-        //todo save avatar
-        //save avatar
-        $userId = 1;
-        if(isset($_FILES["avatar"])){
-            var_dump($_FILES["avatar"]);
-            $dir = $GLOBALS["upload_dir"] . basename($_FILES['avatar']['name']);
-            if(move_uploaded_file($_FILES['avatar']['tmp_name'], $dir)){
-                $Avatar = new Avatar([
-                    "user_id" => $userId,
-                    "file_name" => $_FILES['avatar']['name'],
-                    "file_path" => $dir
-                ]);
-                $Avatar->save();
-                $fileId = $Avatar->getId();
-            }
-        }
+        //check avatar
+        if(isset($_FILES["avatar"])) {
 
-        die();
+            //проверка размера
+            $maxBytes = $GLOBALS["max_upload_file_size"] * 1024 * 1000;
+            if ($_FILES["avatar"]["size"] > $maxBytes)
+                $arErrors["avatar"][] = "Превышен макс размер файла";
+            $fileType = $_FILES["avatar"]["type"];
+            if (!in_array($fileType, $GLOBALS["allowed_file_types"]))
+                $arErrors["avatar"][] = "Педопустимый тип файла";
+        }
 
         if(empty($arErrors)) {
             $arFields["name"] = isset($name)?$name:"";
@@ -79,16 +72,30 @@ class UserController
             $User = new User($arFields);
             $res = $User->save();
 
-            //save avatar
-            var_dump($_REQUEST["file"]);
-
             if($res["result"] === true){
                 //todo save session
                 /*session_start();
                 $_SESSION['user_id'] = $User->getId();*/
 
+                $userId = $User->getId();
+                //save avatar
+                if(isset($_FILES["avatar"])){
+                    $dir = $GLOBALS["upload_dir"] . basename($_FILES['avatar']['name']);
+                    if(move_uploaded_file($_FILES['avatar']['tmp_name'], $dir)){
+                        $Avatar = new Avatar([
+                            "user_id" => $userId,
+                            "file_name" => $_FILES['avatar']['name'],
+                            "file_path" => $dir
+                        ]);
+                        $Avatar->save();
+                        $fileId = $Avatar->getId();
+
+                        $User->setAvatar($fileId);
+                        $User->save();
+                    }
+                }
                 //redirect to personal
-                header("Location: http://localhost:8080/personal.php?user_id=".$User->getId());
+                header("Location: http://localhost:8080/personal.php?user_id=".$userId);
             } else {
                 return $res["error_message"];
             }

@@ -8,7 +8,12 @@ require_once "header.php";
     </div>
 
     <div class="col-md-8 order-md-1">
-        <form class="needs-validation" novalidate method="post" action="lib/routes.php">
+        <form class="needs-validation"
+              enctype="multipart/form-data"
+              method="POST"
+              action="lib/routes.php"
+              novalidate
+        >
             <input type="hidden" name="action" value="registration">
             <div class="mb-6 form-group">
                 <label for="username"><?=$arLang["username"]?> <span class="text-muted">(<?=$arLang["optional"]?>)</span></label>
@@ -44,7 +49,8 @@ require_once "header.php";
             </div>
 
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit"><?=$arLang["registration_btn"]?></button>
+            <input class="btn btn-primary btn-lg btn-block" type="submit" value="<?=$arLang["registration_btn"]?>"/>
+            <!--<button class="btn btn-primary btn-lg btn-block" type="submit"><?/*=$arLang["registration_btn"]*/?></button>-->
         </form>
     </div>
 

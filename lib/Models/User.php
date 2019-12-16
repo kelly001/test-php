@@ -92,6 +92,18 @@ class User
         $this->phone = $phone;
     }
 
+    public function setAvatar($avatarId) {
+        $this->avatar = $avatarId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
     public static function getById($id){
         $res = false;
 
@@ -151,11 +163,12 @@ class User
             //phone_number=?, street_name=?, city=?, county=?, zip_code=?, day_date=?, month_date=?, year_date=?
             //WHERE account_id=?";
 
-            $stmt = $mysqli->prepare("UPDATE users SET name=?, email=?, phone=? WHERE id=?");
-            $stmt->bind_param('sssi',
+            $stmt = $mysqli->prepare("UPDATE users SET name=?, email=?, phone=?, avatar_id=? WHERE id=?");
+            $stmt->bind_param('sssii',
                 $this->name,
                 $this->email,
                 $this->phone,
+                $this->avatar,
                 $this->id
             );
         } else {

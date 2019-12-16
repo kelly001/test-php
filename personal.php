@@ -1,7 +1,8 @@
 <?php
 require_once "header.php";
 $arUserInfo = [];
-$arUserInfo = \Controllers\UserController::getInfo($_REQUEST['user_id']);
+if(isset($_REQUEST['user_id']))
+    $arUserInfo = \Controllers\UserController::getInfo($_REQUEST['user_id']);
 //var_dump($arUserInfo);
 ?>
 <div class="container">

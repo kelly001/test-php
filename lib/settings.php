@@ -12,4 +12,6 @@ $db_password = "";
 $db_name = "facebook";
 $db_server = "localhost";
 
-$upload_dir = __DIR__ . "/upload/";
+$upload_dir = $GLOBALS["SERVER_DIR"] . "\upload\\";
+$max_upload_file_size = 200; //max file size in MB
+$allowed_file_types = ["image/jpeg", "image/png"];

@@ -6,8 +6,11 @@
  * Time: 23:17
  */
 
+$GLOBALS["SERVER_DIR"] = __DIR__;
+
 require_once "lib/Controllers/UserController.php";
 require_once "lib/Models/User.php";
+require_once "lib/Models/Avatar.php";
 require_once "lib/settings.php";
 
 //include lag files
@@ -18,6 +21,20 @@ if(isset($_REQUEST["lang"])){
 
 require_once "lang/".$lang."/index.php";
 $arLang = $GLOBALS["LANG_CONST"];
+
+$link = $_SERVER["SCRIPT_NAME"];
+$query = $_SERVER["QUERY_STRING"];
+$arQueryParametres = explode('&',$query);
+$queryResString = "";
+foreach ($arQueryParametres as $parString){
+    if(!empty($parString)){
+        $arStringPieces = explode("=", $parString);
+        if($arStringPieces[0] != "lang") $queryResString .= $arStringPieces[0]."=".$arStringPieces[1];
+    }
+}
+if(!empty($queryResString))
+    $link .= "?".$queryResString."&lang=";
+else $link .= "?lang=";
 ?>
 
 <!doctype html>
@@ -53,8 +70,8 @@ $arLang = $GLOBALS["LANG_CONST"];
                     <?=$arLang["lang_label"]?>
                 </a>
                 <div class="dropdown-menu right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="<?=$_SERVER["SCRIPT_NAME"]?>?lang=ru">ru</a>
-                    <a class="dropdown-item" href="<?=$_SERVER["SCRIPT_NAME"]?>?lang=en">en</a>
+                    <a class="dropdown-item" href="<?=$link?>ru">ru</a>
+                    <a class="dropdown-item" href="<?=$link?>en">en</a>
                 </div>
             </li>
         </ul>
