@@ -15,4 +15,4 @@ $db_server = "localhost";
 $upload_dir = $GLOBALS["SERVER_DIR"] . "\upload\\";
 $web_dir = "\upload\\";
 $max_upload_file_size = 200; //max file size in MB
-$allowed_file_types = ["image/jpeg", "image/png"];
+$allowed_file_types = ["image/jpeg", "image/png", "image/gif"];
